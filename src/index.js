@@ -1,20 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 
 import mainView from './components/main_view'
 import './index.css';
+import reducer from './reducers';
+
 import * as serviceWorker from './serviceWorker';
-import monthView from './components/month_view';
+
+const enhancer = process.env.NODE_ENV === 'development' ?
+  composeWithDevTools(applyMiddleware(thunk)) :
+  applyMiddleware(thunk)
+const store = createStore(reducer, enhancer)
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/2020" component={monthView} />
-      <Route path="/4" component={mainView} />
-      <Route path="/" component={mainView} />
-    </Switch>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={mainView} />
+      </Switch>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
