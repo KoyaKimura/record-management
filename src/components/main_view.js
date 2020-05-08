@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { Field } from 'redux-form';
 
 
 
-class mainView extends Component {
-
+const mainView = () => {
+  return (
+    <React.Fragment>
+      <div>
+        <form>
+          <Field label="Text" name="text" type="text" component="input" />
+        </form>
+      </div>
+    </React.Fragment>
+  )
 }
 
-export default 
+export default mainView
